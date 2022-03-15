@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Django Todos</title>
+    <link rel="stylesheet" href="{% static 'todo/css/index.css' %}" />
+  </head>
+  <body>
+    <section class="todoapp">
+      <header class="header">
+        <h1>DJ Todos</h1>
+        <form method="POST" action="{% url 'create' %}">
+          {% csrf_token %}
+          <input class="new-todo" placeholder="Mau Apa Hari Ini?" name="title" autofocus/>
+        </form>
+      </header>
+      <section class="main">
+        <ul class="todo-list">
+          {% comment %} Ketika ada item tampilkan {% endcomment %}
+          {% if items %} 
+            {% for item in items %}
+            <li {% if item.status %}class="completed"{% endif %}>
+              <div class="view">
+                <form method="POST" action="{% url 'update' item.id %}">
+                  {% csrf_token %}
+                  <input name="status" class="toggle" type="checkbox" onclick="this.form.submit()" {% if item.status %}checked{% endif %}/>
+                  <label>{{ item.title }}</label>
+                  <a href="{% url 'delete' item.id %}" class="destroy"></a>
+                </form>
+              </div>
+            </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </section>
+      <footer class="footer">
+        <ul class="filters">
+          <li>
+            <a {% if request.path == '/todo/' %} class="selected" {% endif %} href="{% url 'index' %}">All</a>
+          </li>
+          <li>
+            <a {% if request.path == '/todo/done/' %} class="selected" {% endif %} href="{% url 'done' %}">Done</a>
+          </li>
+          <li>
+            <a {% if request.path == '/todo/pending/' %} class="selected" {% endif %} href="{% url 'pending' %}">Pending</a>
+          </li>
+        </ul>
+        <a href="{% url 'delete_all' %}" class="clear-completed">Delete All</a>
+      </footer>
+    </section>
+  </body>
+</html>
