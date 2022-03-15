@@ -19,7 +19,6 @@
       <section class="main">
         <ul class="todo-list">
           {% comment %} Ketika ada item tampilkan {% endcomment %}
-          {% if items %} 
             {% for item in items %}
             <li {% if item.status %}class="completed"{% endif %}>
               <div class="view">
@@ -32,7 +31,6 @@
               </div>
             </li>
             {% endfor %}
-          {% endif %}
         </ul>
       </section>
       <footer class="footer">
