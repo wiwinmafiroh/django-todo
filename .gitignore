@@ -1,8 +1,5 @@
-# Text backup files
-*.bak
-
 # Database
 *.sqlite3
 
 # Settings
-website/settings.py
+website/settings
