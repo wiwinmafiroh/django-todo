@@ -1,4 +1,3 @@
-import imp
 from logging import exception
 from django.shortcuts import render, reverse
 # Import response nya
