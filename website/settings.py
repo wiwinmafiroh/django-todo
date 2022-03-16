@@ -23,16 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-c!-a#79t9z7vrw-$gh_x-7_)^l%%8=c492swm6z0%+nlgo205_')
-
-SECRET_KEY = 'django-insecure-c!-a#79t9z7vrw-$gh_x-7_)^l%%8=c492swm6z0%+nlgo205_'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-c!-a#79t9z7vrw-$gh_x-7_)^l%%8=c492swm6z0%+nlgo205_')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = os.environ.get('DEBUG', 'True') != 'True'
 
-DEBUG = True
-
-ALLOWED_HOSTS = ['wiwinmafiroh-django-todo.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = os.environ.get('ALLOWED HOSTS', '127.0.0.1,localhost').split(',')
 
 # Application definition
 
@@ -79,19 +75,14 @@ WSGI_APPLICATION = 'website.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'deoe36kes25cd1',
-        'HOST': 'ec2-3-216-221-31.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'vsuuwshqrhoput',
-        'PASSWORD': '1c3d5844f76ae0bce2c1a2c15496bb4faba9fbbd089274b0e9246c4110bf917b',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+if os.environ.get('DATABASE_URL'):
+  DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
